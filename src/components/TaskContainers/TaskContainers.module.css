@@ -1,0 +1,77 @@
+.taskContainer {
+	width: 20rem;
+	padding-top: 15px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.task {
+	width: 20rem;
+	min-height: 3.5rem;
+	max-height: 12rem;
+	overflow: auto;
+	margin: 5px 0;
+	padding: 0.4rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	background-color: var(--accent-color);
+	box-shadow: 0 0 20px 0.1rem var(--shadow-color);
+}
+
+.taskTitle {
+	font-weight: 650;
+	color: var(--accent-text-color);
+}
+
+.newInput {
+	width: 20rem;
+	margin: 5px 0;
+	padding: 0.4rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	background-color: var(--accent-color);
+	box-shadow: 0 0 20px 0.1rem var(--shadow-color);
+}
+
+#newTaskInput {
+	resize: none;
+	width: calc(20rem-20px);
+	min-height: 3.5rem;
+	max-height: 14rem;
+	overflow: auto;
+	margin-bottom: 0.4rem;
+	padding: 0.3rem;
+	font-size: 0.8rem;
+	color: #202020;
+	outline: #777777 solid 1px;
+	background-color: var(--accent-color);
+}
+
+.taskFooter {
+	height: 1.2rem;
+	display: flex;
+	justify-content: space-between;
+}
+
+.taskFooter * {
+	height: 1.2rem;
+}
+
+.taskDate input {
+	padding: 0.2rem;
+	width: 5rem;
+}
+
+.taskBtns {
+	display: flex;
+	align-self: flex-end;
+}
+
+.taskBtns button {
+	height: 1.4rem;
+	width: 1.4rem;
+	margin-left: 0.2rem;
+}
