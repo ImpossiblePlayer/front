@@ -22,6 +22,9 @@ export const NewTaskContainer = (props) => {
 		props.funcs.setTask();
 	};
 
+	const taskDone = (id) => props.funcs.moveTask(id, 'new', 'done');
+	const taskFailed = (id) => props.funcs.moveTask(id, 'new', 'failed');
+
 	return (
 		<>
 			{/* блок с новыми заданиямм */}
@@ -59,13 +62,27 @@ export const NewTaskContainer = (props) => {
 				<ul className={styles.taskList}>
 					{/* генерация блоков по шаблону */}
 					{props.tasks.map((task) => {
+						const [taskDay, taskMonth, taskYear] = task.date.split('-');
+						const [day, month, year] = new Date()
+							.toISOString()
+							.split('T')[0]
+							.split('-');
+						if (
+							parseInt(taskDay) < parseInt(day) &&
+							parseInt(taskMonth) < parseInt(month) &&
+							parseInt(taskYear) < parseInt(year)
+						) {
+							taskFailed(task.id);
+						}
 						return (
 							<li key={task.id} className={styles.task}>
 								<div className={styles.taskContent}>{task.content}</div>
 								<div className={styles.taskFooter}>
 									<div className={styles.taskDate}>{task.date}</div>
 									<div className={styles.taskBtns}>
-										<button>{img.doneBtn}</button>
+										<button onClick={() => taskDone(task.id)}>
+											{img.doneBtn}
+										</button>
 										<button
 											onClick={() => props.funcs.deleteTask(task.id, 'new')}
 										>

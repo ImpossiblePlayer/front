@@ -79,7 +79,7 @@ const App = () => {
 		},
 
 		moveTask: (id, from, to) => {
-			fetch(`/api/delete/${from}-${to}/${id}/`, {
+			fetch(`/api/move/${from}-${to}/${id}/`, {
 				method: 'POST',
 				mode: 'no-cors',
 				body: JSON.stringify({
@@ -87,7 +87,7 @@ const App = () => {
 					id: id,
 				}),
 				headers: {
-					'Access-Control-Allow-Origin:': 'http://localhost:5000',
+					origin: 'http://localhost:5000',
 					'Content-type': 'application/json; charset=UTF-8',
 				},
 			})
