@@ -1,65 +1,118 @@
 import React, { useEffect, useState } from 'react';
+import {
+	NewTaskContainer,
+	CompletedTaskContainer,
+	FailedTasksContainer,
+} from './components/TaskContainers/TaskContainers';
 
-import styles from './App.module.css';
-
-const App = (props) => {
+const App = () => {
 	const [newTasks, setNewTasks] = useState([]);
 	const [completedTasks, setCompletedTasks] = useState([]);
 	const [failedTasks, setFailedTasks] = useState([]);
-	const [newInput, setNewInput] = useState({
-		content: '',
-		date: new Date().toISOString().split('T')[0],
-	});
+	const [newInput, setNewInput] = useState('');
+	const [newDate, setNewDate] = useState(
+		new Date().toISOString().split('T')[0]
+	);
 
-	useEffect(() => {
-		fetch('/api/returntasks')
-			.then((res) => {
-				if (res.ok) {
-					return res.json();
-				}
+	// получаем задания с сервера
+	useEffect(() => funcs.getLatestTasks(), []);
+
+	const funcs = {
+		getLatestTasks: () => {
+			fetch('/api/gettasks/', {
+				mode: 'no-cors',
+				headers: {
+					origin: 'http://localhost:5000',
+					'Content-Type': 'application/json',
+				},
 			})
-			.then((data) => {
-				data.map(() => {
+				.then((res) => {
+					if (res.ok) {
+						return res.json();
+					}
+				})
+				.then((data) => {
 					setNewTasks(data.new_tasks);
 					setCompletedTasks(data.completed_tasks);
 					setFailedTasks(data.failed_tasks);
 				});
-			});
-	}, []);
+		},
 
-	// функция для создания нового задания
-	useEffect(() => {
-		if (newInput) {
-			fetch('/api/create', {
+		// функция для создания нового задания
+		setTask: () => {
+			fetch('/api/create/', {
 				method: 'POST',
+				mode: 'no-cors',
 				body: JSON.stringify({
 					content: newInput,
-					date: 1,
+					date: newDate,
 				}),
-				headers: { 'Content-type': 'application/json; charset=UTF-8' },
+				headers: {
+					origin: 'http://localhost:5000',
+					'Content-type': 'application/json; charset=UTF-8',
+				},
 			})
-				.then((response) => response.json)
-				.then((msg) => {
-					console.log(msg);
-					newTaskInput = {
-						content: '',
-						date: new Date().toISOString().split('T')[0],
-					};
+				.then((res) => res.json())
+				.then(() => {
+					setNewInput('');
+					setNewDate(new Date().toISOString().split('T')[0]);
+					funcs.getLatestTasks();
 				});
-			setNewInput('');
-		}
-	}, []);
+		},
+
+		// функция для удаления задания
+		deleteTask: (id, taskList) => {
+			fetch(`/api/delete/${taskList}/${id}/`, {
+				method: 'POST',
+				mode: 'no-cors',
+				body: JSON.stringify({
+					taskList: taskList,
+					id: id,
+				}),
+				headers: {
+					origin: 'http://localhost:5000',
+					'Content-type': 'application/json; charset=UTF-8',
+				},
+			})
+				.then((res) => res.json())
+				.then(() => funcs.getLatestTasks());
+		},
+
+		moveTask: (id, from, to) => {
+			fetch(`/api/delete/${from}-${to}/${id}/`, {
+				method: 'POST',
+				mode: 'no-cors',
+				body: JSON.stringify({
+					from: from,
+					id: id,
+				}),
+				headers: {
+					'Access-Control-Allow-Origin:': 'http://localhost:5000',
+					'Content-type': 'application/json; charset=UTF-8',
+				},
+			})
+				.then((res) => res.json())
+				.then(() => funcs.getLatestTasks());
+		},
+
+		handleFormChange: (text) => setNewInput(text),
+
+		setNewTaskDate: (date) => setNewDate(date),
+	};
 
 	return (
-		<>
-			<header />
-			<main>
-				{/* блок с новыми заданиямм */}
-				<NewTaskContainer tasks={newTasks} newInput={newInput} />
-				<CompletedTaskContainer tasks={completedTasks} />
-				<FailedTasksContainer tasks={failedTasks} />
-			</main>
-		</>
+		<main>
+			{/* <header /> */}
+			{/* блок с новыми заданиямм */}
+			<NewTaskContainer
+				tasks={newTasks}
+				newInput={newInput}
+				newDate={newDate}
+				funcs={funcs}
+			/>
+			<CompletedTaskContainer tasks={completedTasks} funcs={funcs} />
+			<FailedTasksContainer tasks={failedTasks} funcs={funcs} />
+		</main>
 	);
 };
 

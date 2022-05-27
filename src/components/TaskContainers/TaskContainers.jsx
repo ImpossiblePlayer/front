@@ -1,57 +1,76 @@
 import React from 'react';
 import styles from './TaskContainers.module.css';
+import addBtn from '../../img/add.svg';
+import delBtn from '../../img/del.svg';
+import doneBtn from '../../img/done.svg';
+
+const img = {
+	addBtn: <img src={addBtn} alt='add' style={{ height: '1.2rem' }} />,
+	delBtn: <img src={delBtn} alt='delete' style={{ height: '1.2rem' }} />,
+	doneBtn: <img src={doneBtn} alt='done' style={{ height: '1.2rem' }} />,
+};
 
 export const NewTaskContainer = (props) => {
 	const handleFormChange = (evt) => {
-		props.funcs.updateInputText(evt.target.value);
+		props.funcs.handleFormChange(evt.target.value);
 	};
 
-	const handleDateInput = (evt) => {
-		props.funcs.setNewTaskDate(evt.target.value);
-	};
+	const handleDateInput = (evt) => props.funcs.setNewTaskDate(evt.target.value);
 
 	const handleFormSubmit = (evt) => {
 		evt.preventDefault();
-		props.funcs.setNewTask();
+		props.funcs.setTask();
 	};
 
 	return (
 		<>
 			{/* блок с новыми заданиямм */}
 			<div className={styles.taskContainer}>
-				<span className={styles.taskTitle}>Новые задания</span>
-				<form onSubmit={handleFormSubmit} className={styles.newInput}>
-					<div
-						contentEditable
+				<span className={styles.taskTitle}>
+					<span>НОВЫЕ ЗАДАНИЯ</span>
+					<span>{props.tasks.length}</span>
+				</span>
+
+				<form
+					onSubmit={handleFormSubmit}
+					className={`${styles.task} ${styles.newInput}`}
+				>
+					<textarea
 						value={props.newInput}
 						onChange={handleFormChange}
+						required
 						id={styles.newTaskInput}
 					/>
 					<div className={styles.taskFooter}>
 						<div className={styles.taskDate}>
 							<input
 								type='date'
-								value={props.newDateInput}
 								min={new Date().toISOString().split('T')[0]}
+								value={props.newDate}
 								onInput={handleDateInput}
+								required
 							/>
 						</div>
 						<div className={styles.taskBtns}>
-							<button type='submit'>{/*{props.statics.img.addBtn}*/}+</button>
+							<button type='submit'>{img.addBtn}</button>
 						</div>
 					</div>
 				</form>
 				<ul className={styles.taskList}>
 					{/* генерация блоков по шаблону */}
-					{props.state.newTasks.map((task) => {
+					{props.tasks.map((task) => {
 						return (
 							<li key={task.id} className={styles.task}>
 								<div className={styles.taskContent}>{task.content}</div>
 								<div className={styles.taskFooter}>
 									<div className={styles.taskDate}>{task.date}</div>
 									<div className={styles.taskBtns}>
-										<button>{props.statics.img.doneBtn}</button>
-										<button>{props.statics.img.delBtn}</button>
+										<button>{img.doneBtn}</button>
+										<button
+											onClick={() => props.funcs.deleteTask(task.id, 'new')}
+										>
+											{img.delBtn}
+										</button>
 									</div>
 								</div>
 							</li>
@@ -68,13 +87,28 @@ export const CompletedTaskContainer = (props) => {
 		<>
 			{/* блок с выполненными заданиями */}
 			<div className={styles.taskContainer}>
-				<span className={styles.taskTitle}>Выполненные</span>
+				<span className={styles.taskTitle}>
+					<span>ВЫПОЛНЕННЫЕ</span>
+					<span>{props.tasks.length}</span>
+				</span>
 				{/* генерация блоков по шаблону */}
 				<ul className={styles.taskList}>
-					{props.state.completedTasks.map((task) => {
+					{props.tasks.map((task) => {
 						return (
 							<li key={task.id} className={styles.task}>
 								<div className={styles.taskContent}>{task.content}</div>
+								<div className={styles.taskFooter}>
+									<div className={styles.taskDate}>{task.date}</div>
+									<div className={styles.taskBtns}>
+										<button
+											onClick={() =>
+												props.funcs.deleteTask(task.id, 'completed')
+											}
+										>
+											{img.delBtn}
+										</button>
+									</div>
+								</div>
 							</li>
 						);
 					})}
@@ -89,13 +123,26 @@ export const FailedTasksContainer = (props) => {
 		<>
 			{/* блок с просроченными заданиями */}
 			<div className={styles.taskContainer}>
-				<span className={styles.taskTitle}>Просроченные</span>
+				<span className={styles.taskTitle}>
+					<span>ПРОСРОЧЕННЫЕ</span>
+					<span>{props.tasks.length}</span>
+				</span>
 				{/* генерация блоков по шаблону */}
 				<ul className={styles.taskList}>
-					{props.state.failedTasks.map((task) => {
+					{props.tasks.map((task) => {
 						return (
 							<li key={task.id} className={styles.task}>
 								<div className={styles.taskContent}>{task.content}</div>
+								<div className={styles.taskFooter}>
+									<div className={styles.taskDate}>{task.date}</div>
+									<div className={styles.taskBtns}>
+										<button
+											onClick={() => props.funcs.deleteTask(task.id, 'failed')}
+										>
+											{img.delBtn}
+										</button>
+									</div>
+								</div>
 							</li>
 						);
 					})}

@@ -1,77 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+
+:root {
+	--bg-color: #ffffff;
+	--accent-color: #ffffff;
+	--text-color: #000000;
+	--accent-text-color: #000000;
+	--shadow-color: #bdbdbd;
+	--border-color: #e8edf3;
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+html,
+body {
+	background-color: var(--bg-color);
+	font: 450 20px 'Nunito', sans-serif;
+	color: var(--text-color);
+}
+
+/* header {
+	position: sticky;
+	height: 2.5rem;
+	display: flex;
+	justify-content: center;
+	background-color: #2e2e2e;
+} */
+
+main {
+	padding-top: 2rem;
+	display: grid;
+	grid-template-columns: auto auto auto;
+	justify-content: space-evenly;
+}
+
 .taskContainer {
 	width: 20rem;
-	padding-top: 15px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
 
-.task {
-	width: 20rem;
-	min-height: 3.5rem;
-	max-height: 12rem;
-	overflow: auto;
-	margin: 5px 0;
-	padding: 0.4rem;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	background-color: var(--accent-color);
-	box-shadow: 0 0 20px 0.1rem var(--shadow-color);
-}
-
 .taskTitle {
-	font-weight: 650;
+	width: 20rem;
+	margin: 0.6rem 0;
+	display: block;
+	font-size: 1.2rem;
+	font-weight: 550;
 	color: var(--accent-text-color);
 }
 
-.newInput {
+.taskTitle span:first-child {
+	margin-right: 2rem;
+}
+
+.taskTitle::after {
+	/* position: relative;
+	top: 10px; */
+	content: '';
 	width: 20rem;
-	margin: 5px 0;
-	padding: 0.4rem;
+	height: 0.25rem;
+	display: block;
+	background-color: #4aff39;
+	box-shadow: 0 0 30px 0.04rem #4aff39;
+}
+
+.taskContainer:first-of-type > .taskTitle::after {
+	background-color: #ff9100;
+	box-shadow: 0 0 30px 0.04rem #ff9100;
+}
+.taskContainer:last-of-type > .taskTitle::after {
+	background-color: #ff3939;
+	box-shadow: 0 0 30px 0.04rem #ff3939;
+}
+
+.taskList {
+	display: flex;
+	flex-direction: column-reverse;
+}
+
+.task {
+	width: 20rem;
+	min-height: 5rem;
+	max-height: 12rem;
+	margin: 0.2rem 0;
+	padding: 0.5rem;
+	overflow: auto;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	background-color: var(--accent-color);
-	box-shadow: 0 0 20px 0.1rem var(--shadow-color);
+	box-shadow: 0 0 30px 0.05rem var(--shadow-color);
+	border: var(--border-color) solid 1px;
+	border-radius: 0.5rem;
 }
 
 #newTaskInput {
 	resize: none;
-	width: calc(20rem-20px);
 	min-height: 3.5rem;
 	max-height: 14rem;
 	overflow: auto;
 	margin-bottom: 0.4rem;
 	padding: 0.3rem;
-	font-size: 0.8rem;
+	font: 0.8rem 'Plus Jakarta Sans', sans-serif;
 	color: #202020;
-	outline: #777777 solid 1px;
+	border: var(--border-color) solid 1px;
 	background-color: var(--accent-color);
 }
 
 .taskFooter {
-	height: 1.2rem;
+	margin-top: 0.4rem;
+	padding-top: 0.5rem;
+	height: 1.8rem;
 	display: flex;
 	justify-content: space-between;
+	border-top: 1px solid var(--border-color);
 }
 
-.taskFooter * {
-	height: 1.2rem;
+.taskDate {
+	font-size: 0.8rem;
 }
 
 .taskDate input {
-	padding: 0.2rem;
-	width: 5rem;
+	width: 7rem;
+	font-size: 0.8rem;
 }
 
 .taskBtns {
+	height: 1.5rem;
 	display: flex;
 	align-self: flex-end;
 }
 
 .taskBtns button {
-	height: 1.4rem;
-	width: 1.4rem;
 	margin-left: 0.2rem;
+	background: transparent;
+}
+
+.taskBtns button:hover {
+	cursor: pointer;
 }

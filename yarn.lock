@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"16@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/16/-/16-0.0.2.tgz#1e1f67a1633e1800c167e0e703dff0890c3e153a"
+  integrity sha512-AhG4lpdn+/it+U5Xl1bm5SbaHYTH5NfU/vXZkP7E7CHjtVtITuFVZKa3AZP3gN38RDJHYYtEqWmqzCutlXaR7w==
+  dependencies:
+    numeric "^1.2.6"
+
 "@ampproject/remapping@^2.1.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@ampproject/remapping/-/remapping-2.2.0.tgz#56c133824780de3174aed5ab6834f3026790154d"
@@ -7629,6 +7636,11 @@ num2fraction@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/num2fraction/-/num2fraction-1.2.2.tgz#6f682b6a027a4e9ddfa4564cd2589d1d4e669ede"
   integrity sha1-b2gragJ6Tp3fpFZM0lidHU5mnt4=
+
+numeric@^1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/numeric/-/numeric-1.2.6.tgz#765b02bef97988fcf880d4eb3f36b80fa31335aa"
+  integrity sha1-dlsCvvl5iPz4gNTrPza4D6MTNao=
 
 nwsapi@^2.2.0:
   version "2.2.0"
