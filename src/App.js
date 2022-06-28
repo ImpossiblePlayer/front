@@ -32,9 +32,21 @@ const App = () => {
 					}
 				})
 				.then((data) => {
-					setNewTasks(data.new_tasks);
-					setCompletedTasks(data.completed_tasks);
-					setFailedTasks(data.failed_tasks);
+					setNewTasks(
+						data.new_tasks.sort((a, b) => {
+							return new Date(a.date) - new Date(b.date);
+						})
+					);
+					setCompletedTasks(
+						data.completed_tasks.sort((a, b) => {
+							return new Date(a.date) - new Date(b.date);
+						})
+					);
+					setFailedTasks(
+						data.failed_tasks.sort((a, b) => {
+							return new Date(a.date) - new Date(b.date);
+						})
+					);
 				});
 		},
 

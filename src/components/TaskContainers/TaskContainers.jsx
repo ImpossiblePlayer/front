@@ -62,15 +62,17 @@ export const NewTaskContainer = (props) => {
 				<ul className={styles.taskList}>
 					{/* генерация блоков по шаблону */}
 					{props.tasks.map((task) => {
-						const [taskDay, taskMonth, taskYear] = task.date.split('-');
-						const [day, month, year] = new Date()
+						const [taskYear, taskMonth, taskDay] = task.date.split('-');
+						const [year, month, day] = new Date()
 							.toISOString()
 							.split('T')[0]
 							.split('-');
 						if (
-							parseInt(taskDay) < parseInt(day) &&
-							parseInt(taskMonth) < parseInt(month) &&
-							parseInt(taskYear) < parseInt(year)
+							parseInt(taskYear) < year ||
+							(parseInt(taskYear) <= year && parseInt(taskMonth) < month) ||
+							(parseInt(taskYear) <= year &&
+								parseInt(taskMonth) <= month &&
+								parseInt(taskDay) < day)
 						) {
 							taskFailed(task.id);
 						}

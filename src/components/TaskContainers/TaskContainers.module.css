@@ -80,7 +80,7 @@ main {
 
 .taskList {
 	display: flex;
-	flex-direction: column-reverse;
+	flex-direction: column;
 }
 
 .task {
